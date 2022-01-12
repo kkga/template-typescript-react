@@ -1,24 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { Arrow } from './Arrow'
 
 function App() {
+  const [start, setStart] = useState({ x: 0, y: 0 })
+  const [end, setEnd] = useState({ x: 0, y: 0 })
+
+  function handleMouseMove(ev: React.MouseEvent) {
+    setEnd({ x: ev.clientX, y: ev.clientY })
+  }
+
+  function handleClick(ev: React.MouseEvent) {
+    setStart({ x: ev.clientX, y: ev.clientY})
+  }
+
+  const windowSize = {x: window.innerWidth, y: window.innerHeight}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      onMouseMove={handleMouseMove}
+      onClick={handleClick }
+      style={{width: windowSize.x, height: windowSize.y}}
+      >
+      <Arrow
+        showControlPoints={true}
+        size={windowSize}
+        offsetMult={0.35}
+        minOffset={100}
+        start={start}
+        end={end} />
     </div>
   );
 }
